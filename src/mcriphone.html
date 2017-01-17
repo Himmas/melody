@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .logo-container,
+        .logo,
+        .container,
+        .clone {
+            width: 300px;
+            height: 300px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+
+        .logo-container,
+        .clone {
+            background: black;
+            border-radius: 200px;
+        }
+
+        .mask {
+            overflow: hidden;
+            will-change: transform;
+            position: absolute;
+            transform: none;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="logo-container">
+    <img class="logo" src="/logo.svg"/>
+</div> -->
+    <!-- <script src="test.js"></script> -->
+    <canvas id="canvas1" width="400" height="100"></canvas>
+    <canvas id="canvas2" width="400" height="100"></canvas>
+    <br/>
+    <input type="button" onclick="audio.play();play=true" value="播放" />
+    <input type="button" onclick="audio.pause();play=false" value="暂停" />
+    <script>
+    window.AudioContext = window.AudioContext ||
+        window.webkitAudioContext ||
+        window.mozAudioContext ||
+        window.msAudioContext;
+
+    navigator.getUserMedia = navigator.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
+
+    Uint8Array.prototype.max = function(){
+      var max = this[0]
+      var index = 0
+      this.forEach((o,i)=>{
+        if(o>max){
+            max = o
+            index = i
+          }
+      })
+      return index
+    }
+
+    Array.prototype.max = function(){
+      var max = this[0]
+      var index = 0
+      this.forEach((o,i)=>{
+        if(o>max){
+            max = o
+            index = i
+          }
+      })
+      return index
+    }
+
+
+        var play = false
+        var obj = {};
+        canvas1.style.border = "1px solid #CCC";
+
+        var AudioContext = AudioContext || webkitAudioContext;
+        var context = new AudioContext;
+        //加载媒体
+        // var audio = new Audio("/piano/media/piano.wav");
+        // var audio = new Audio("/melody2.mp3");
+
+        navigator.getUserMedia({
+            audio: true
+        }, (stream) => {
+          //创建节点
+          console.log(stream)
+          var source = context.createMediaStreamSource(stream);
+
+          var analyser = context.createAnalyser();
+          var sampleRate = context.sampleRate*0.5
+          //连接：source → analyser → destination
+          source.connect(analyser);
+          analyser.connect(context.destination);
+          //Canvas初始化
+          var width = canvas1.width,
+              height = canvas1.height;
+          var g = canvas1.getContext("2d");
+
+          g.translate(0.5, 0.5);
+
+          //计算出采样频率44100所需的缓冲区长度
+          var length = analyser.frequencyBinCount * 44100 / context.sampleRate | 0;
+
+          var minFrequency = 64;
+          var maxFrequency = 1200;
+          //创建数据
+          var output = new Uint8Array(length);
+          //播放帧
+
+          play = true;
+
+
+          var keyString = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+
+          // 音频代号 C4为0
+          function pitch(frequency){
+              return 69+12*Math.log2(frequency/440)
+          }
+          (function callee(e) {
+            console.log(e)
+            //请求下一帧
+            if(play)
+            requestAnimationFrame(callee);
+              analyser.getByteFrequencyData(output);
+
+
+              // -----------------------
+              var d = sampleRate/length
+
+              var frequency_max_start = output.max()*d
+              var frequency_max_end = (output.max()+1)*d
+              var frequency_max_ave = (output.max()+0.5)*d
+              // 最大分贝对应的频率的范围为frequency_max_start~frequency_max_start
+              // frequency_ave频率平均值
+
+              // 此时取到的频率为基频或者泛音 泛音为基频的倍数 算出倍数即可得到基频率
+              var step_sum_obj = {}
+              var data_sum = [0]
+              var change = []
+              var change_sum = []
+
+              // var step_arr = []
+              for(var i = 1;i<frequency_max_ave;i++){
+
+                // i为猜测的倍数(此时 倍数 可能的取值为 1, 2, ..., frequency_max_ave)
+
+                // step 当前步长
+                let step = Math.round(frequency_max_ave / i)
+                // if(~step_arr.indexOf(step))
+                //   return
+                // step_arr.push(step)
+
+                var sum = 0
+                if(!!step_sum_obj.step)
+                  sum = step_sum_obj.step
+                else {
+                  output.forEach((o,i)=>{
+                    if((i-step)%step === 0)
+                    sum+=o
+                  })
+                }
+                data_sum[i] = sum*step
+                change[i-1]=data_sum[i-1]-data_sum[i]
+              }
+
+              change_sum = change.map((o,index)=>{
+                if((index-i)%i === 0)
+                  return o*i
+              })
+              var change_max = change_sum.max()
+              var times = change_max>1?change_max:1
+              var baseFrequency = frequency_max_ave/times
+              var num = pitch(baseFrequency)
+
+              var keyNote = keyString[Math.round(num%12)]
+
+              var keyNum = Math.floor(num/12)-1
+              console.log(keyNote,keyNum)
+
+              // console.log(step_arr)
+
+              //将缓冲区的数据绘制到Canvas上
+              // g.clearRect(-0.5, -0.5, width, height);
+              // g.beginPath(), g.moveTo(0, height);
+              // for (var i = 0; i < width; i++)
+              //     g.lineTo(i, height - height * output[Math.round(length * i / width)] / 255);
+              // g.lineTo(i, height), g.fill();
+
+          })();
+
+
+        }, (err) => {
+            console.log(err)
+        });
+
+
+        //播放
+
+        // c2-d6人声范围
+
+    </script>
+</body>
+
+</html>
