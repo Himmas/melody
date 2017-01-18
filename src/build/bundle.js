@@ -26,6 +26,7 @@ var loadAudio = function loadAudio(url) {
 
 var isSP;
 var ctxs;
+var datas;
 var frequencyRatioTempered;
 var keyboards;
 
@@ -33,7 +34,7 @@ window.AudioContext = window.AudioContext || window.webkitAudioContext || window
 
 ctxs = [new AudioContext(), new AudioContext(), new AudioContext(), new AudioContext(), new AudioContext()];
 
-var datas = Array(5);
+datas = Array(5);
 
 var _loop = function _loop(i) {
 		loadAudio('media/C' + i + '.wav').then(function (response) {

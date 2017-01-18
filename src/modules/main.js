@@ -1,6 +1,6 @@
 import {loadAudio} from './loadAudio'
 
-var isSP, ctxs, xml, frequencyRatioTempered, keyboards;
+var isSP, ctxs, datas, xml,frequencyRatioTempered, keyboards;
 
 window.AudioContext = window.AudioContext ||
 		window.webkitAudioContext ||
@@ -10,7 +10,7 @@ window.AudioContext = window.AudioContext ||
 
 ctxs = [new AudioContext(),new AudioContext(),new AudioContext(),new AudioContext(),new AudioContext()];
 
-var datas = Array(5);
+datas = Array(5);
 
 for(let i = 2;i<7;i++){
 	loadAudio(`media/C${i}.wav`).then(function(response){
@@ -49,7 +49,7 @@ keyboards.map(function(keyboard, index) {
 		keyboard.addEventListener(isSP ? 'touchstart' : 'click', function() {
 				var bufferSource;
 
-				var n = 4-Math.floor(index/12);
+				var n = 4 - Math.floor(index/12);
 
 				bufferSource = ctxs[n].createBufferSource();
 				bufferSource.buffer = datas[n];
