@@ -1,28 +1,33 @@
 import {loadAudio} from './loadAudio'
 
-var isSP, ctx, xml, data, frequencyRatioTempered, keyboards;
+var isSP, ctxs, xml, frequencyRatioTempered, keyboards;
 
 window.AudioContext = window.AudioContext ||
 		window.webkitAudioContext ||
 		window.mozAudioContext ||
 		window.msAudioContext;
 
-ctx = new AudioContext();
 
-loadAudio('media/piano.wav').then(function(response){
+ctxs = [new AudioContext(),new AudioContext(),new AudioContext(),new AudioContext(),new AudioContext()];
 
-	// use the decodeAudioData to convert arraybuffer into an AudioBuffer
-	ctx.decodeAudioData(
-			response,
-			function(_data) {
-					data = _data;
-					console.log(data);
-			},
-			function(e) {
-					throw(e.err);
-			}
-	);
-})
+var datas = Array(5);
+
+for(let i = 2;i<7;i++){
+	loadAudio(`media/C${i}.wav`).then(function(response){
+
+		// use the decodeAudioData to convert arraybuffer into an AudioBuffer
+		ctxs[i-2].decodeAudioData(
+				response,
+				function(_data) {
+						datas[i-2] = _data;
+				},
+				function(e) {
+						throw(e.err);
+				}
+		);
+	})
+
+}
 
 frequencyRatioTempered = 1.059463;
 
@@ -37,20 +42,20 @@ keyboards.map(function(keyboard, index) {
 		var i, frequencyRatio;
 
 		frequencyRatio = 1;
-		for(var n = 0; n<36 ;n++){
-			frequencyRatio *= frequencyRatioTempered;
-		}
 
-		for (i = 0; i < index; i++) {
+		for (i = 0; i < (index%12); i++) {
 				frequencyRatio /= frequencyRatioTempered;
 		}
 		keyboard.addEventListener(isSP ? 'touchstart' : 'click', function() {
 				var bufferSource;
-				bufferSource = ctx.createBufferSource();
-				bufferSource.buffer = data;
+
+				var n = 4-Math.floor(index/12);
+
+				bufferSource = ctxs[n].createBufferSource();
+				bufferSource.buffer = datas[n];
 
 				bufferSource.playbackRate.value = frequencyRatio;
-				bufferSource.connect(ctx.destination);
+				bufferSource.connect(ctxs[n].destination);
 				bufferSource.start(0);
 		});
 });
