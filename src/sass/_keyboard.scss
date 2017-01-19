@@ -26,7 +26,7 @@ $base-height:4.167%;
 				&:hover{
 					background-color: rgba(255, 155, 52, 0.4);
 				}
-				&:active{
+				&:active,&.on{
 					background-color: rgba(255, 155, 52, 0.8)!important;
 				}
 			}
@@ -36,7 +36,7 @@ $base-height:4.167%;
 				height: $base-height*2;
 				box-shadow: inset -3px 0px 3px 0px #676767;
 				z-index: 9;
-				&:active{
+				&:active,&.on{
 					background-color: rgba(255, 155, 52, 1);
 					box-shadow: inset -1px 0px 3px 0px #af7a45;
 				}
