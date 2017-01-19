@@ -26,15 +26,17 @@ var loadAudio = function loadAudio(url) {
 
 var isSP;
 var ctxs;
-var datas;
 var frequencyRatioTempered;
 var keyboards;
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
 
+var keymap = [65, 87, 83, 69, 68, 70, 84, 71, 89, 72, 85, 74, 75];
+var keyIsDown = [false, false, false, false, false, false, false, false, false, false, false];
+
 ctxs = [new AudioContext(), new AudioContext(), new AudioContext(), new AudioContext(), new AudioContext()];
 
-datas = Array(5);
+var datas = Array(5);
 
 var _loop = function _loop(i) {
 		loadAudio('media/C' + i + '.wav').then(function (response) {
@@ -64,10 +66,11 @@ keyboards.map(function (keyboard, index) {
 
 		frequencyRatio = 1;
 
-		for (i = 0; i < index % 12; i++) {
-				frequencyRatio /= frequencyRatioTempered;
+		for (i = 0; i < 11 - index % 12; i++) {
+				frequencyRatio *= frequencyRatioTempered;
 		}
 		keyboard.addEventListener(isSP ? 'touchstart' : 'click', function () {
+
 				var bufferSource;
 
 				var n = 4 - Math.floor(index / 12);
@@ -79,6 +82,41 @@ keyboards.map(function (keyboard, index) {
 				bufferSource.connect(ctxs[n].destination);
 				bufferSource.start(0);
 		});
+});
+
+document.addEventListener('keydown', function (event) {
+
+		var index = keymap.indexOf(event.keyCode);
+
+		if (~index) {
+				if (!!keyIsDown[index]) return;
+				keyIsDown[index] = true;
+				var bufferSource;
+
+				var n = 2;
+
+				var i, frequencyRatio;
+
+				frequencyRatio = 1;
+
+				for (i = 0; i < index; i++) {
+						frequencyRatio *= frequencyRatioTempered;
+				}
+				bufferSource = ctxs[n].createBufferSource();
+				bufferSource.buffer = datas[n];
+
+				bufferSource.playbackRate.value = frequencyRatio;
+				bufferSource.connect(ctxs[n].destination);
+				bufferSource.start(0);
+		}
+});
+document.addEventListener('keyup', function (event) {
+
+		var index = keymap.indexOf(event.keyCode);
+
+		if (~index) {
+				keyIsDown[index] = false;
+		}
 });
 
 }());
