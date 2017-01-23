@@ -101,12 +101,14 @@ module.exports = function(config) {
                 base: 'Chrome',
                 flags: ['--no-sandbox']
             }
-        },
+        }
     };
 
     if (process.env.TRAVIS) {
         configuration.browsers = ['Chrome_travis_ci'];
+        configuration.singleRun = true;
+        // travis 环境下执行一次
     }
-    
+
     config.set(configuration)
 }
