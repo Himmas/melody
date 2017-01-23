@@ -1,9 +1,10 @@
 // Karma configuration
 // Generated on Mon Jan 23 2017 10:53:08 GMT+0800 (CST)
 
-module.exports = function(config) {
-    config.set({
 
+module.exports = function(config) {
+    var configuration = {
+        // other things
         //根目录，files的路径从这里开始取
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: '../../',
@@ -93,6 +94,19 @@ module.exports = function(config) {
             transform: function(mapData) {
                 mapData.sourceRoot = '/';
             }
-        }
-    })
+        },
+
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            }
+        },
+    };
+
+    if (process.env.TRAVIS) {
+        configuration.browsers = ['Chrome_travis_ci'];
+    }
+    
+    config.set(configuration)
 }
