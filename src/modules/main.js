@@ -51,6 +51,9 @@ keyboards.map(function(keyboard, index) {
 		for (i = 0; i < 11-(index%12); i++) {
 				frequencyRatio *= frequencyRatioTempered;
 		}
+
+		console.log(keyboard)
+
 		keyboard.addEventListener(isSP ? 'touchstart' : 'click', function() {
 
 				var bufferSource;
