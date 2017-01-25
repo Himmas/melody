@@ -21,7 +21,7 @@ after_script:
   - cd ./src
   - git init
   - git config user.name "kylin"
-  - git config user.email "kailinzhou@yeah.net"
+  - git config user.email "396882574@qq.com"
   - git add .
   - git commit -m "TravisCI"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages
