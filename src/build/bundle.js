@@ -73,12 +73,14 @@ var createClass = function () {
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext || window.msAudioContext;
 
+var ctx$1 = new AudioContext();
+
 var AudioProcessor = function () {
-	function AudioProcessor(ctx, data, frequencyRatio) {
+	function AudioProcessor(data, frequencyRatio) {
 		classCallCheck(this, AudioProcessor);
 
 
-		this.audioCtx = ctx;
+		this.audioCtx = ctx$1;
 		this.bufferSource = this.audioCtx.createBufferSource();
 		this.bufferSource.buffer = data;
 
@@ -171,7 +173,7 @@ keyboards.map(function (keyboard, index) {
 
 		keyboard.addEventListener(isSP ? 'touchstart' : 'mousedown', function () {
 
-				var thisProcessor = new AudioProcessor(ctx, datas[n], frequencyRatio);
+				var thisProcessor = new AudioProcessor(datas[n], frequencyRatio);
 				// bufferSource = ctxs[n].createBufferSource();
 				// bufferSource.buffer = datas[n];
 				//

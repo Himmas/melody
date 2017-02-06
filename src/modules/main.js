@@ -74,7 +74,7 @@ keyboards.map(function(keyboard, index) {
 
 		keyboard.addEventListener(isSP ? 'touchstart' : 'mousedown', function() {
 
-				var thisProcessor = new AudioProcessor(ctx,datas[n],frequencyRatio)
+				var thisProcessor = new AudioProcessor(datas[n],frequencyRatio)
 				// bufferSource = ctxs[n].createBufferSource();
 				// bufferSource.buffer = datas[n];
 				//

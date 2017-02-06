@@ -3,8 +3,10 @@ window.AudioContext = window.AudioContext ||
 		window.mozAudioContext ||
 		window.msAudioContext;
 
+let ctx = new AudioContext();
+
 export default class AudioProcessor {
-	constructor (ctx,data,frequencyRatio) {
+	constructor (data,frequencyRatio) {
 
     this.audioCtx = ctx;
 		this.bufferSource = this.audioCtx.createBufferSource();
