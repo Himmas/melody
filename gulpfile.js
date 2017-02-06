@@ -46,8 +46,13 @@ gulp.task('scripts', function() {
 gulp.task('js', function() {
     rollup.rollup({
         entry: 'src/modules/main.js',
-        plugins: [babel()]
+        plugins: [babel({
+          babelrc: false,
+          "presets": ["es2015-rollup"]
+        })]
+        //不使用项目目录下的.babelrc
     }).then(function(bundle) {
+        console.log('update the scripts');
         bundle.write({
             format: 'iife',
             moduleName: 'main', //umd或iife模式下，若入口文件含 export，必须加上该属性

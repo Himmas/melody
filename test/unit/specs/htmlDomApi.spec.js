@@ -2,11 +2,12 @@ import { addClass, removeClass, hasClass, createElement} from '/src/modules/html
 
 describe('dom Api',()=>{
 
-	var elem = document.createElement('div')
 	var elemEmpty = document.createElement('div')
 
 	// test addClass
 	it('adds the specified class to the current element',()=>{
+
+		var elem = document.createElement('div')
 
 		addClass(elem,'classA')
 
@@ -24,6 +25,10 @@ describe('dom Api',()=>{
 	// test hasClass
 	it('determines whether the current element has the specified class',()=>{
 
+		var elem = document.createElement('div')
+
+		addClass(elem,'classA classB classC')
+
 		expect(hasClass(elem,'classA')).toBe(true)
 
 		// 空class处理
@@ -37,6 +42,10 @@ describe('dom Api',()=>{
 
 	// test removeClass
 	it('removes the specified class from the current element',()=>{
+
+		var elem = document.createElement('div')
+
+		addClass(elem,'classA classB classC')
 
 		removeClass(elem,'classA')
 

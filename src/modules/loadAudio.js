@@ -3,7 +3,7 @@
  * @return {Promise}
  */
 export const loadAudio = function(url) {
-  
+
     return new Promise(function(resolve, reject) {
         /* Create a new XHR object */
         let xhr = new XMLHttpRequest();

@@ -32,7 +32,7 @@ module.exports = function(config) {
         // es6代码做预处理
         preprocessors: {
             'src/modules/**/*.js': ['babel', 'coverage', 'sourcemap'],
-            'test/unit/specs/**/*.spec.js': ['babel', 'coverage', 'sourcemap']
+            'test/unit/specs/**/*.spec.js': ['babel', 'sourcemap']
         },
 
 

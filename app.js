@@ -11,4 +11,10 @@ app.use(static_dir(path.join(__dirname,'/src')));//静态目录配置
 //     this.body = yield render('index', { app: himmas });
 // });
 
-app.listen(4002);
+app.listen(4002,function (err) {
+  if (err) {
+    console.log(err)
+    return
+  }
+  console.log('Listening at http://localhost:4002')
+});
