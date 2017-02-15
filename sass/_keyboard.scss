@@ -1,0 +1,94 @@
+$base-height:4.167%;
+
+.keyboard-box {
+	position: absolute;
+	width: 10%;
+	height: 100%;
+	// overflow: hidden;
+	.keyboard {
+		height: 100%;
+		box-shadow: 0 0 2px 2px #888;
+		.keyboard-octave {
+			position: relative;
+			height: 100%/$keyboard-octave-num;
+			.keyboard-li{
+				position: relative;
+				display: flex;
+				box-sizing: border-box;
+				padding-right: 5px;
+				justify-content: flex-end;
+				align-items:center;
+				font-size: 12px;
+				cursor: pointer;
+			}
+			.keyboard-li.keyboard-white{
+				background-color: #fbfbfb;
+				&:hover{
+					background-color: rgba(255, 155, 52, 0.4);
+				}
+				&:active,&.on{
+					background-color: rgba(255, 155, 52, 0.8)!important;
+				}
+			}
+			.keyboard-li.keyboard-black{
+				background-color: #333;
+				width: 65%;
+				height: $base-height*2;
+				box-shadow: inset -3px 0px 3px 0px #676767;
+				z-index: 9;
+				&:active,&.on{
+					background-color: rgba(255, 155, 52, 1);
+					box-shadow: inset -1px 0px 3px 0px #af7a45;
+				}
+			}
+
+			.keyboard-li.keyboard-white:nth-child(1){
+				height: $base-height*3;
+			}
+			.keyboard-li.keyboard-white:nth-child(3){
+				height: $base-height*4;
+			}
+			.keyboard-li.keyboard-white:nth-child(5){
+				height: $base-height*4;
+			}
+			.keyboard-li.keyboard-white:nth-child(7){
+				height: $base-height*3;
+				border-bottom: 1px solid #acacac;
+			}
+			.keyboard-li.keyboard-white:nth-child(8){
+				height: $base-height*3;
+			}
+			.keyboard-li.keyboard-white:nth-child(10){
+				height: $base-height*4;
+			}
+			.keyboard-li.keyboard-white:nth-child(12){
+				height: $base-height*3;
+				border-bottom: 1px solid #acacac;
+				background-color: #ececec;
+			}
+
+			.keyboard-li.keyboard-black:nth-child(2){
+				position: absolute;
+				top: $base-height*2;
+
+			}
+			.keyboard-li.keyboard-black:nth-child(4){
+				position: absolute;
+				top: $base-height*6;
+			}
+			.keyboard-li.keyboard-black:nth-child(6){
+				position: absolute;
+				top: $base-height*10;
+			}
+			.keyboard-li.keyboard-black:nth-child(9){
+				position: absolute;
+				top: $base-height*16;
+			}
+			.keyboard-li.keyboard-black:nth-child(11){
+				position: absolute;
+				top: $base-height*20;
+			}
+
+		}
+	}
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="css/style.css">
+	<title>melody</title>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.0.52/wavesurfer.min.js"></script>
+</head>
+
+<body>
+	<div id="waveform"></div>
+	<div class="main-panel">
+		<div class="keyboard-box">
+			<div class="keyboard">
+				<ul class="keyboard-octave">
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white">C6</li>
+				</ul>
+				<ul class="keyboard-octave">
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white">C5</li>
+				</ul>
+				<ul class="keyboard-octave">
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white">C4</li>
+				</ul>
+				<ul class="keyboard-octave">
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white">C3</li>
+				</ul>
+				<ul class="keyboard-octave">
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white"></li>
+					<li class="keyboard-li keyboard-black"></li>
+					<li class="keyboard-li keyboard-white">C2</li>
+				</ul>
+			</div>
+		</div>
+		<div class="piano-window">
+			<div class="window-box">
+				<ul class="window-octave">
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+				</ul>
+				<ul class="window-octave">
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+				</ul>
+				<ul class="window-octave">
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+				</ul>
+				<ul class="window-octave">
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+				</ul>
+				<ul class="window-octave">
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+					<li class="window-li window-li-dark"></li>
+					<li class="window-li window-li-light"></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<script src="./build/bundle.js"></script>
+</body>
+
+</html>

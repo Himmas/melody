@@ -1,0 +1,5 @@
+$keyboard-octave-num:5;//八度数
+$keyboard-octave-key-num: 12;//每八度键数
+$keyboard-num: $keyboard-octave-key-num*$keyboard-octave-num;//总键数
+$keyboard-white-height-times: 3;
+$keyboard-black-height-times: 2;
