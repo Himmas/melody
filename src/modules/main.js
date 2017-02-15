@@ -1,19 +1,19 @@
-import {loadAudio} from './loadAudio'
-import {hasClass,removeClass,addClass,createElement} from './htmlDomApi'
+import { loadAudio } from './loadAudio'
+import { hasClass,removeClass,addClass,createElement } from './htmlDomApi'
 import AudioProcessor from './audioProcessor'
 
 
 var isSP, ctxs, xml, frequencyRatioTempered, keyboards;
 
 window.AudioContext = window.AudioContext ||
-		window.webkitAudioContext ||
-		window.mozAudioContext ||
-		window.msAudioContext;
+    window.webkitAudioContext ||
+    window.mozAudioContext ||
+    window.msAudioContext;
 
 
-var keymap = [65,87,83,69,68,70,84,71,89,72,85,74,75];
+var keymap = [65, 87, 83, 69, 68, 70, 84, 71, 89, 72, 85, 74, 75];
 
-var keyIsDown = [false,false,false,false,false,false,false,false,false,false,false];
+var keyIsDown = [false, false, false, false, false, false, false, false, false, false, false];
 
 
 var ctx = new AudioContext();
@@ -22,75 +22,87 @@ var ctx = new AudioContext();
 
 var datas = Array(5);
 
-for(let i = 2;i<7;i++){
-	loadAudio(`media/C${i}.wav`).then(function(response){
+for (let i = 2; i < 7; i++) {
+    loadAudio(`media/C${i}.wav`).then(function(response) {
 
-		// use the decodeAudioData to convert arraybuffer into an AudioBuffer
-		// ctxs[i-2].decodeAudioData(
-		// 		response,
-		// 		function(_data) {
-		// 				datas[i-2] = _data;
-		// 		},
-		// 		function(e) {
-		// 				throw(e.err);
-		// 		}
-		// );
-		ctx.decodeAudioData(
-				response,
-				function(_data) {
-						datas[i-2] = _data;
-				},
-				function(e) {
-						throw(e.err);
-				}
-		);
-	})
+        // use the decodeAudioData to convert arraybuffer into an AudioBuffer
+        // ctxs[i-2].decodeAudioData(
+        // 		response,
+        // 		function(_data) {
+        // 				datas[i-2] = _data;
+        // 		},
+        // 		function(e) {
+        // 				throw(e.err);
+        // 		}
+        // );
+        ctx.decodeAudioData(
+            response,
+            function(_data) {
+                datas[i - 2] = _data;
+            },
+            function(e) {
+                throw (e.err);
+            }
+        );
+    })
 
 }
 
 frequencyRatioTempered = 1.059463;
 
 keyboards = Array.prototype.slice.call(
-		document.getElementsByClassName('keyboard-li')
+    document.getElementsByClassName('keyboard-li')
 );
+
+var keyboardsObjArray = keyboards.map(o => {
+    return {
+        el: o,
+        audioProcessor: null
+    }
+})
 
 isSP = typeof window.ontouchstart !== 'undefined';
 
-keyboards.map(function(keyboard, index) {
+keyboardsObjArray.map((keyboard, index) => {
 
-		var i, frequencyRatio;
+    var i, frequencyRatio;
 
-		frequencyRatio = 1;
+    frequencyRatio = 1;
 
-		for (i = 0; i < 11-(index%12); i++) {
-				frequencyRatio *= frequencyRatioTempered;
-		}
+    for (i = 0; i < 11 - (index % 12); i++) {
+        frequencyRatio *= frequencyRatioTempered;
+    }
 
-		var bufferSource = null;
+    var bufferSource = null;
 
-		var n = 4-Math.floor(index/12);
+    var n = 4 - Math.floor(index / 12);
 
-		// var gainNode = ctxs[n].createGain();
+    // var gainNode = ctxs[n].createGain();
 
-		keyboard.addEventListener(isSP ? 'touchstart' : 'mousedown', function() {
+    keyboard.el.addEventListener(isSP ? 'touchstart' : 'mousedown', function() {
 
-				var thisProcessor = new AudioProcessor(datas[n],frequencyRatio)
-				// bufferSource = ctxs[n].createBufferSource();
-				// bufferSource.buffer = datas[n];
-				//
-				// bufferSource.playbackRate.value = frequencyRatio;
-				// bufferSource.connect(ctxs[n].destination);
-				// gainNode.connect(ctxs[n].destination);
-				// bufferSource.start(0);
-				thisProcessor.start(0);
-		});
 
-		keyboard.addEventListener(isSP ? 'touchend' : 'mouseup', function() {
 
-				// bufferSource && bufferSource.stop(ctxs[n].currentTime + 1);
-				// gainNode.gain.linearRampToValueAtTime(0, ctxs[n].currentTime + 1);
-				//stop the playback after a 1s
-		});
+        keyboard.audioProcessor = new AudioProcessor(datas[n], frequencyRatio)
+            // bufferSource = ctxs[n].createBufferSource();
+            // bufferSource.buffer = datas[n];
+            //
+            // bufferSource.playbackRate.value = frequencyRatio;
+            // bufferSource.connect(ctxs[n].destination);
+            // gainNode.connect(ctxs[n].destination);
+            // bufferSource.start(0);
+        keyboard.audioProcessor.start(0);
+    });
+
+    keyboard.el.addEventListener(isSP ? 'touchend' : 'mouseup', function() {
+
+        // bufferSource && bufferSource.stop(ctxs[n].currentTime + 1);
+        // gainNode.gain.linearRampToValueAtTime(0, ctxs[n].currentTime + 1);
+        //stop the playback after a 1s
+        keyboard.audioProcessor.stop(1);
+        var peaks = keyboard.audioProcessor.getPeaks(1800);
+        console.log(peaks);
+    });
 });
 
 // document.addEventListener('keydown',function(event){
@@ -135,45 +147,45 @@ keyboards.map(function(keyboard, index) {
 // 	var elm = keyboards[59-(n*12+index)]
 // 	removeClass(elm,'on')
 // })
-document.addEventListener('keydown',function(event){
+document.addEventListener('keydown', function(event) {
 
-	var index = keymap.indexOf(event.keyCode)
+    var index = keymap.indexOf(event.keyCode)
 
-	if(~index){
-		if(!!keyIsDown[index])
-		return;
-		keyIsDown[index] = true;
-		var bufferSource;
+    if (~index) {
+        if (!!keyIsDown[index])
+            return;
+        keyIsDown[index] = true;
+        var bufferSource;
 
-		var n = 2;
+        var n = 2;
 
-		var i, frequencyRatio;
+        var i, frequencyRatio;
 
-		frequencyRatio = 1;
+        frequencyRatio = 1;
 
-		for (i = 0; i < index; i++) {
-				frequencyRatio *= frequencyRatioTempered;
-		}
-		// style
-		var elm = keyboards[59-(n*12+index)]
-		addClass(elm,'on')
+        for (i = 0; i < index; i++) {
+            frequencyRatio *= frequencyRatioTempered;
+        }
+        // style
+        var elm = keyboards[59 - (n * 12 + index)]
+        addClass(elm, 'on')
 
-		bufferSource = ctx.createBufferSource();
-		bufferSource.buffer = datas[n];
+        bufferSource = ctx.createBufferSource();
+        bufferSource.buffer = datas[n];
 
-		bufferSource.playbackRate.value = frequencyRatio;
-		bufferSource.connect(ctx.destination);
-		bufferSource.start(0);
-	}
+        bufferSource.playbackRate.value = frequencyRatio;
+        bufferSource.connect(ctx.destination);
+        bufferSource.start(0);
+    }
 })
-document.addEventListener('keyup',function(event){
+document.addEventListener('keyup', function(event) {
 
-	var index = keymap.indexOf(event.keyCode)
+    var index = keymap.indexOf(event.keyCode)
 
-	var n = 2;
-	if(~index){
-		keyIsDown[index] = false;
-	}
-	var elm = keyboards[59-(n*12+index)]
-	removeClass(elm,'on')
+    var n = 2;
+    if (~index) {
+        keyIsDown[index] = false;
+    }
+    var elm = keyboards[59 - (n * 12 + index)]
+    removeClass(elm, 'on')
 })

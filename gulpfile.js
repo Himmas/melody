@@ -52,7 +52,7 @@ gulp.task('js', function() {
         })]
         //不使用项目目录下的.babelrc
     }).then(function(bundle) {
-        console.log('update the scripts');
+        console.log('update the script');
         bundle.write({
             format: 'iife',
             moduleName: 'main', //umd或iife模式下，若入口文件含 export，必须加上该属性
