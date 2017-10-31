@@ -96,6 +96,7 @@
             audio: true
         }, (stream) => {
           //创建节点
+            alert(stream)
           console.log(stream)
           var source = context.createMediaStreamSource(stream);
 
